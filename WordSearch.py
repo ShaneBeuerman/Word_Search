@@ -19,19 +19,31 @@ def fillSpacesWithRandomLetters(arr):
 
 def buttonPress(char):
     global currentLetters
-    currentLetters += char
-    print(currentLetters)
+    currentLetters += char.capitalize()
     updateGUI()
 
-def crossOff():
-    print("To be continued")
-
 def win():
-    print("N/A")
+    global wordlist
+    for i in wordlist:
+        if i != "":
+            return
+    print("You win")
 
 def updateGUI():
     global letterslabel
+    global currentLetters
+    global wordlist
+    global words
     letterslabel.config(text="Current Letters: " + "\n" + currentLetters)
+    for i in range(len(wordlist)):
+        print(wordlist[i], currentLetters)
+        if wordlist[i] == currentLetters:
+            words[i].config(text= "")
+            wordlist[i] = ""
+            currentLetters = ""
+            letterslabel.config(text="Current Letters: " + "\n" + currentLetters)
+    win()
+            
 
 f = open("wordSearch.txt", "r")
 while(True):
