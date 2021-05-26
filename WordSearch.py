@@ -22,11 +22,23 @@ def buttonPress(char):
     currentLetters += char.capitalize()
     updateGUI()
 
+def clearLetters():
+    global currentLetters
+    currentLetters = ""
+    updateGUI()
+
 def win():
     global wordlist
     for i in wordlist:
         if i != "":
             return
+    winScreen = tkinter.Tk()
+    winScreen.wm_title("Congratulations")
+    winLabel = tkinter.Label(winScreen, text="You won")
+    winButton = tkinter.Button(winScreen, text="Okay", command=winScreen.destroy)
+    winLabel.pack()
+    winButton.pack()
+    winScreen.mainloop()
     print("You win")
 
 def updateGUI():
@@ -36,7 +48,6 @@ def updateGUI():
     global words
     letterslabel.config(text="Current Letters: " + "\n" + currentLetters)
     for i in range(len(wordlist)):
-        print(wordlist[i], currentLetters)
         if wordlist[i] == currentLetters:
             words[i].config(text= "")
             wordlist[i] = ""
@@ -53,9 +64,7 @@ while(True):
     line = line.strip("\n")
     line = line.replace(" ", "")
     board.append(list(line))
-printArray(board)
 fillSpacesWithRandomLetters(board)
-printArray(board)
 f = open("wordList.txt", "r")
 while(True):
     line = f.readline()
@@ -63,7 +72,6 @@ while(True):
         break
     line = line.strip("\n")
     wordlist.append(line)
-printArray(wordlist)
 
 top = tkinter.Tk()
 buttons =  [[None]*10 for _ in range(10)]
@@ -82,5 +90,7 @@ for i in range(len(wordlist)):
 
 letterslabel = tkinter.Label(text="Current letters: " + "\n" + currentLetters)
 letterslabel.grid(column = 12, row = 0)
+clearButton = tkinter.Button(text="Clear currentLetters", comman = clearLetters)
+clearButton.grid(column =12, row = 1)
 
 top.mainloop()
